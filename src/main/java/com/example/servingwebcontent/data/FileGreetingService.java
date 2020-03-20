@@ -8,10 +8,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -56,11 +53,15 @@ public class FileGreetingService implements GreetingService {
     @Override
     @SneakyThrows(IOException.class)
     public List<Greeting> readHistory() {
-        List<String> inputFile = Files.readAllLines(fileWithHistory);
-        return inputFile.stream()
-                .map(s -> s.split(","))
-                .map(strings -> new Greeting(Long.parseLong(strings[0]), strings[1]))
-                .collect(Collectors.toList());
+        if (Files.notExists(fileWithHistory)) {
+            return new ArrayList<>();
+        } else {
+            List<String> inputFile = Files.readAllLines(fileWithHistory);
+            return inputFile.stream()
+                    .map(s -> s.split(","))
+                    .map(strings -> new Greeting(Long.parseLong(strings[0]), strings[1]))
+                    .collect(Collectors.toList());
+        }
     }
 
     @Override
@@ -70,8 +71,12 @@ public class FileGreetingService implements GreetingService {
 
     private void initializeFileGreetingService() {
         List<Greeting> greetingListFromHistory = readHistory();
-        greetingListFromHistory.forEach(greeting -> webHistoryCache.put(greeting.getId(), greeting));
-        lastVersionFromHistoryFile = (long) greetingListFromHistory.size();
+        if (greetingListFromHistory.size() != 0) {
+            greetingListFromHistory.forEach(greeting -> webHistoryCache.put(greeting.getId(), greeting));
+            lastVersionFromHistoryFile = (long) greetingListFromHistory.size();
+        } else {
+            lastVersionFromHistoryFile = 0L;
+        }
     }
 
     private List<String> parseHistoryToCsvFormat() {
