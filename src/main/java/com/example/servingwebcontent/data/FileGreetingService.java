@@ -1,7 +1,6 @@
 package com.example.servingwebcontent.data;
 
 import com.example.servingwebcontent.Greeting;
-import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -46,22 +45,37 @@ public class FileGreetingService implements GreetingService {
     }
 
     @Override
-    @SneakyThrows(IOException.class)
     public void storeHistory() {
         if (Files.notExists(fileWithHistory)) {
-            Files.createDirectories(fileWithHistory.getParent());
-            Files.createFile(fileWithHistory);
+            try {
+                Files.createDirectories(fileWithHistory.getParent());
+                Files.createFile(fileWithHistory);
+            } catch (IOException e) {
+                e.printStackTrace();
+                log.info("file with history not created");
+            }
         }
-        Files.write(fileWithHistory, parseHistoryToCsvFormat(), StandardOpenOption.TRUNCATE_EXISTING);
+        try {
+            Files.write(fileWithHistory, parseHistoryToCsvFormat(), StandardOpenOption.TRUNCATE_EXISTING);
+        } catch (IOException e) {
+            e.printStackTrace();
+            log.info("could not write history to file");
+        }
     }
 
     @Override
-    @SneakyThrows(IOException.class)
     public List<Greeting> readHistory() {
         if (Files.notExists(fileWithHistory)) {
             return new ArrayList<>();
         } else {
-            List<String> historyFromFile = Files.readAllLines(fileWithHistory);
+            List<String> historyFromFile = null;
+            try {
+                historyFromFile = Files.readAllLines(fileWithHistory);
+            } catch (IOException e) {
+                e.printStackTrace();
+                log.info("couldnt read file with history");
+            }
+
             log.info("list size from history is " + historyFromFile.size());
             return historyFromFile.stream()
                     .map(s -> s.split(","))

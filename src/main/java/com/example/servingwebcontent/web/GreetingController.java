@@ -1,7 +1,6 @@
 package com.example.servingwebcontent.web;
 
 import com.example.servingwebcontent.data.GreetingService;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -25,6 +24,7 @@ public class GreetingController {
     public String greeting(@RequestParam(name = "name", required = false, defaultValue = "World") String name,
                            @RequestParam(value = "history", required = false) Long historyPosition,
                            Model model) throws IOException {
+
         if (historyPosition == null) {
             greetingService.addToHistory(name);
         } else {
