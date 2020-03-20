@@ -13,7 +13,7 @@ public class Greeting {
         this.name = name;
     }
 
-    public String toCsvformat(){
-        return String.format("%d,%s",id,name);
+    public String toCsvformat() {
+        return String.format("%d,%s", id, name);
     }
 }

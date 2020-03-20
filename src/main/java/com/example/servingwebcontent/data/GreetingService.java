@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface GreetingService {
 
-    void addToHistory(Greeting greeting);
+    void addToHistory(String name);
 
     List<Greeting> getHistorySortedByName();
 
@@ -16,7 +16,5 @@ public interface GreetingService {
     void storeHistory() throws IOException;
 
     List<Greeting> readHistory();
-
-    Long getHistorySize();
 
 }
