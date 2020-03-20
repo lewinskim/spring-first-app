@@ -71,11 +71,11 @@ public class FileGreetingService implements GreetingService {
 
     private void initializeFileGreetingService() {
         List<Greeting> greetingListFromHistory = readHistory();
-        if (greetingListFromHistory.size() != 0) {
+        if (greetingListFromHistory.isEmpty()) {
+            lastVersionFromHistoryFile = 0L;
+        } else {
             greetingListFromHistory.forEach(greeting -> webHistoryCache.put(greeting.getId(), greeting));
             lastVersionFromHistoryFile = (long) greetingListFromHistory.size();
-        } else {
-            lastVersionFromHistoryFile = 0L;
         }
     }
 
