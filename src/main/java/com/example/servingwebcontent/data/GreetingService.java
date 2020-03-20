@@ -11,4 +11,8 @@ public interface GreetingService {
     List<Greeting> getHistorySortedByName();
 
     void replaceElementInHistory(Long histId, String name);
+
+    void storeHistory();
+
+    void readHistory();
 }

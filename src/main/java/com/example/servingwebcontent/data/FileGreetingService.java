@@ -28,4 +28,14 @@ public class FileGreetingService implements GreetingService {
     public void replaceElementInHistory(Long histId, String name) {
             webHistoryCache.computeIfPresent(histId,(key,val) -> new Greeting(histId, name));
     }
+
+    @Override
+    public void storeHistory() {
+
+    }
+
+    @Override
+    public void readHistory() {
+
+    }
 }
