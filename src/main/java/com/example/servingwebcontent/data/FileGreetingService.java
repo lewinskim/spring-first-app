@@ -5,11 +5,13 @@ import lombok.SneakyThrows;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
-import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
-import java.util.*;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
@@ -17,6 +19,11 @@ public class FileGreetingService implements GreetingService {
 
     private final Map<Long, Greeting> webHistoryCache = new HashMap<>();
     private final Path fileWithHistory = Path.of("history", "history.csv");
+    private Long lastVersionFromHistoryFile;
+
+    private FileGreetingService() {
+        initializeFileGreetingService();
+    }
 
     @Override
     public void addToHistory(Greeting greeting) {
@@ -44,13 +51,27 @@ public class FileGreetingService implements GreetingService {
             Files.createFile(fileWithHistory);
         }
         Files.write(fileWithHistory, parseHistoryToCsvFormat(), StandardOpenOption.TRUNCATE_EXISTING);
-
     }
 
+    @Override
+    @SneakyThrows(IOException.class)
+    public List<Greeting> readHistory() {
+        List<String> inputFile = Files.readAllLines(fileWithHistory);
+        return inputFile.stream()
+                .map(s -> s.split(","))
+                .map(strings -> new Greeting(Long.parseLong(strings[0]), strings[1]))
+                .collect(Collectors.toList());
+    }
 
     @Override
-    public void readHistory() {
+    public Long getHistorySize() {
+        return lastVersionFromHistoryFile;
+    }
 
+    private void initializeFileGreetingService() {
+        List<Greeting> greetingListFromHistory = readHistory();
+        greetingListFromHistory.forEach(greeting -> webHistoryCache.put(greeting.getId(), greeting));
+        lastVersionFromHistoryFile = (long) greetingListFromHistory.size();
     }
 
     private List<String> parseHistoryToCsvFormat() {

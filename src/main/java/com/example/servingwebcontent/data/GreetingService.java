@@ -15,6 +15,8 @@ public interface GreetingService {
 
     void storeHistory() throws IOException;
 
-    void readHistory();
+    List<Greeting> readHistory();
+
+    Long getHistorySize();
 
 }

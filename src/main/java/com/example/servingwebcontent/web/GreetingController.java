@@ -7,13 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
 import java.util.concurrent.atomic.AtomicLong;
 
 @Controller
@@ -26,6 +22,7 @@ public class GreetingController {
     @Autowired
     public GreetingController(GreetingService greetingService) {
         this.greetingService = greetingService;
+        this.counter.set(greetingService.getHistorySize());
     }
 
 
