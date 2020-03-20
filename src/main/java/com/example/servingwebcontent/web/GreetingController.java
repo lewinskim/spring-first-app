@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -31,7 +32,7 @@ public class GreetingController {
     @GetMapping("/greeting")
     public String greeting(@RequestParam(name = "name", required = false, defaultValue = "World") String name,
                            @RequestParam(value = "history", required = false) Long historyPosition,
-                           Model model) {
+                           Model model) throws IOException {
         if (historyPosition == null) {
             Greeting temporaryGreeting = new Greeting(counter.getAndIncrement(), name);
             greetingService.addToHistory(temporaryGreeting);
@@ -39,6 +40,7 @@ public class GreetingController {
         } else {
             greetingService.replaceElementInHistory(historyPosition, name);
         }
+        greetingService.storeHistory();
         addAttributesToModel(name, model);
         return "greeting";
     }

@@ -2,6 +2,7 @@ package com.example.servingwebcontent.data;
 
 import com.example.servingwebcontent.Greeting;
 
+import java.io.IOException;
 import java.util.List;
 
 public interface GreetingService {
@@ -12,7 +13,8 @@ public interface GreetingService {
 
     void replaceElementInHistory(Long histId, String name);
 
-    void storeHistory();
+    void storeHistory() throws IOException;
 
     void readHistory();
+
 }

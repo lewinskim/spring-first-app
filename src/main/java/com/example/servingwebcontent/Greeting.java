@@ -12,4 +12,8 @@ public class Greeting {
         this.id = id;
         this.name = name;
     }
+
+    public String toCsvformat(){
+        return String.format("%d,%s",id,name);
+    }
 }
