@@ -1,0 +1,17 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Getting Started: Serving Web Content</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+</head>
+<body>
+<p th:text="'Hello, ' + ${name} + '!'"></p>
+<h3>history</h3>
+<div th:each="history : ${history}">
+    <input name="name" th:value="${history.id}"/>
+    <input name="name" th:value="${history.name}"/>
+<!--    <input name="ver" th:value="${history.key}"/>-->
+<!--    <input name="hist" th:value="${history.value}"/>-->
+</div>
+</body>
+</html>
