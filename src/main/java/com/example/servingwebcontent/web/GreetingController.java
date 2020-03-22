@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.io.IOException;
@@ -22,16 +23,19 @@ public class GreetingController {
 
     @GetMapping("/greeting")
     public String greeting(@RequestParam(name = "name", required = false, defaultValue = "World") String name,
-                           @RequestParam(value = "history", required = false) Long historyPosition,
                            Model model) throws IOException {
-
-        if (historyPosition == null) {
-            greetingService.addToHistory(name);
-        } else {
-            greetingService.replaceElementInHistory(historyPosition, name);
-        }
+        greetingService.addToHistory(name);
         greetingService.storeHistory();
         addAttributesToModel(name, model);
+        return "greeting";
+    }
+
+    @GetMapping("/greeting/{edit}")
+    public String editHistory(@PathVariable("edit") String input, Model model) throws IOException {
+        String[] posistionAndNameForReplacement = input.split(":");
+        greetingService.replaceElementInHistory(Long.parseLong(posistionAndNameForReplacement[0]), posistionAndNameForReplacement[1]);
+        greetingService.storeHistory();
+        addAttributesToModel(posistionAndNameForReplacement[1], model);
         return "greeting";
     }
 
