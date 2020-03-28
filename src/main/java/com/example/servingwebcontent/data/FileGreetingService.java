@@ -84,6 +84,11 @@ public class FileGreetingService implements GreetingService {
         }
     }
 
+    @Override
+    public void removeFromHistory(List<String> idsOfHistoryForRemoval) {
+        idsOfHistoryForRemoval.forEach(s -> webHistoryCache.remove(Long.parseLong(s)));
+    }
+
     private void initializeFileGreetingService() {
         List<Greeting> greetingListFromHistory = readHistory();
         if (greetingListFromHistory.isEmpty()) {

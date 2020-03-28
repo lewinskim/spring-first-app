@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>whateva</title>
+</head>
+<body>
+<div id="main"></div>
+
+<script type="text/javascript">
+
+    var mainDiv = document.getElementById("main");
+    for (i = 0; i < 3; i++) {
+        var t = document.createTextNode("sometext");
+        var p = document.createElement("input");
+	 p.type = "text"
+	 p.value = t.value;
+	 mainDiv.appendChild(p);
+        var btn = document.createElement("button");
+        btn.innerHTML = "CLICK_ME";
+        mainDiv.appendChild(btn);
+        var chkbx = document.createElement("input");
+
+        chkbx.setAttribute("type","checkbox");
+        chkbx.setAttribute("id","6");
+        chkbx.setAttribute("name","aaaa");
+        mainDiv.appendChild(chkbx);
+        mainDiv.appendChild(document.createElement("br"))
+
+
+    }
+
+
+
+</script>
+
+</body>
+</html>

@@ -17,4 +17,5 @@ public interface GreetingService {
 
     List<Greeting> readHistory();
 
+    void removeFromHistory(List<String> idsOfHistoryForRemoval);
 }
