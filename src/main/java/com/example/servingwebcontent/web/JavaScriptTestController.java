@@ -8,6 +8,6 @@ public class JavaScriptTestController {
 
     @GetMapping("/jstest")
     public String jsTest(){
-        return "javaScriptTest";
+        return "jsSimpleCalc";
     }
 }

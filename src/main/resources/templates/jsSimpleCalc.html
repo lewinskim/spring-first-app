@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>jstest</title>
+</head>
+<body>
+<input type="text" name="firstField" id="t1"><br><br>
+<input type="button" id="btn1" onclick="handlerTest()" value="Perform Action"/>
+<p>result:</p>
+<input type="text" name="result" id="t2">
+<div id="main">
+    <h3>----history with javascript----</h3>
+</div>
+
+<script type="text/javascript">
+    let mainDiv = document.getElementById("main");
+    function handlerTest() {
+        let res = t1.value.split(" ");
+        if (res[1] === "+"){
+            t2.value =  parseInt(res[0]) + parseInt(res[2]);
+        } else if (res[1] === "-"){
+            t2.value =  parseInt(res[0]) - parseInt(res[2]);
+        }
+            let t = document.createTextNode(t1.value + " = " +t2.value);
+            let p = document.createElement("P");
+            // p.name = t;
+            // p.value = (t1.value + "=" +t2.value);
+            p.appendChild(t);
+            mainDiv.appendChild(p);
+            // mainDiv.appendChild(document.createElement("br"))
+    }
+</script>
+</body>
+</html>

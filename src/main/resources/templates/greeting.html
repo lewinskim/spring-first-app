@@ -6,15 +6,15 @@
 </head>
 <body>
 <p th:text="'Hello, ' + ${name} + '!'"></p>
-<h3>----history with thymeleaf----</h3>
+<h3>----history fetched with thymeleaf----</h3>
 <form method="POST" th:object="${greetingsForRemoval}">
     <div th:each="history : ${history}">
         <input name="id" th:value="${history.id}"/>
         <input name="name" th:value="${history.name}"/>
-        <input name ="greetings" type="checkbox" th:value="${history.id}"/>
+        <input name="greetings" type="checkbox" th:value="${history.id}"/>
     </div>
-        <br/>
-        <button>Remove Selected Entries</button>
+    <br/>
+    <button>Remove Selected Entries</button>
     </div>
 </form>
 <h3>----history fetched with javascript----</h3>
@@ -23,24 +23,23 @@
 
 <script th:inline="javascript">
 
-/*<![CDATA[*/
-  var historyList = /*[[${history}]]*/ "Test1";
-/*]]>*/
- var mainDiv = document.getElementById("main");
- for(i=0; i<historyList.length; i++){
-	 var t = document.createTextNode(historyList[i].id+' '+historyList[i].name);
-	 var p = document.createElement("input");
-	 p.name = t;
-	 p.value = (historyList[i].id+' '+historyList[i].name);
-	 mainDiv.appendChild(p);
-	 var btn = document.createElement("button");
+    /*<![CDATA[*/
+    let historyList = /*[[${history}]]*/ "Test1";
+    /*]]>*/
+    let mainDiv = document.getElementById("main");
+    for (i = 0; i < historyList.length; i++) {
+        let t = document.createTextNode(historyList[i].id + ' ' + historyList[i].name);
+        let p = document.createElement("input");
+        p.name = t;
+        p.value = (historyList[i].id + ' ' + historyList[i].name);
+        mainDiv.appendChild(p);
+        let btn = document.createElement("button");
         btn.innerHTML = "REMOVE";
+        btn.name = historyList[i].name;
+        btn.value = historyList[i].id;
         mainDiv.appendChild(btn);
         mainDiv.appendChild(document.createElement("br"))
- }
-
-
-
+    }
 
 </script>
 </body>
